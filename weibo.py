@@ -146,17 +146,3 @@ def main():
     sendMiniBlog(text)
     
 main()
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
