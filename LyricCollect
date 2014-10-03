@@ -1,0 +1,45 @@
+'''
+Created on 2014-10-2
+<br />
+@author: Andy
+'''
+from bs4 import BeautifulSoup
+import urllib.request
+
+baseURL = 'http://m.xiami.com'
+
+def lyricCollect(target):
+    albumSoup = getAlbum(target)
+    albumName = albumSoup.find('h1','name')
+    
+    for content in albumSoup.find_all('h2'):
+        songLink = content.find('a')['href']
+        songURL = baseURL + songLink
+        print(songURL)
+        song  = getSong(songURL)
+        title = song.find('h1','name')
+        lyric = song.find('div', 'lrc-inner')
+        if title and lyric:
+            saveFile(albumName.get_text(), title.get_text(), lyric.get_text())
+
+def getAlbum(target):
+    albumURL = baseURL + target
+    albumBytes = urllib.request.urlopen(albumURL).read()
+    data = albumBytes.decode('utf8', 'ignore')
+    return BeautifulSoup(data)
+    
+def getSong(songURL):
+    songBytes = urllib.request.urlopen(songURL).read()
+    songData = songBytes.decode('utf8', 'ignore')
+    return BeautifulSoup(songData)
+        
+def saveFile(album, title, lyric):
+    if title and lyric:
+        with open('D://' + album +'.txt', mode='a', encoding='utf8') as afile: 
+            afile.write('<<'+title+'>>\n')
+            afile.write(lyric+'\n\n')
+            print('<<'+title+'>> write done!') 
+
+if __name__ == '__main__':
+    lyricCollect('/album/2733')
+    lyricCollect('/album/547213')
