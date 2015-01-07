@@ -78,7 +78,7 @@ def sendMiniBlog(text):
     postdata = {
         'text':text,  
         'pic_id':'',  
-        'rank':1, #rank1:自己可见, rank0:公开  
+        'rank':1, #rank1:自己可见, rank0:公开 .
         'rankid':'',  
         '_surl':'',  
         'hottopicid':'',  
